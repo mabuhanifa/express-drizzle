@@ -1,7 +1,7 @@
 import cors from "cors";
 import * as dotenv from "dotenv";
 import express from "express";
-import pool from "./db/db";
+import { db } from "./db/drizzle";
 dotenv.config();
 
 const port = process.env.PORT || 5000;
@@ -10,7 +10,7 @@ const app = express();
 
 app.get("/", async (req, res) => {
   try {
-    const db = pool.query(`SELECT * FROM users`);
+    const user = db;
     res.send(db);
   } catch (error) {
     res.send(error);
