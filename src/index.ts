@@ -21,7 +21,7 @@ app.get("/", async (req, res) => {
   }
 });
 
-migrate(db, { migrationsFolder: "/migration/" });
+migrate(db, { migrationsFolder: "./migrations" });
 
 app.post("/", async (req: Request, res: Response) => {
   const { fullName, email } = req.body;
@@ -29,8 +29,7 @@ app.post("/", async (req: Request, res: Response) => {
   try {
     const result = await db
       .insert(users)
-      .values({ fullName: fullName, email: email })
-      .returning();
+      .values({ fullName: fullName, email: email });
     res.send(result);
   } catch (error) {
     console.log(error);
