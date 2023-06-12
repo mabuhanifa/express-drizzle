@@ -14,4 +14,5 @@ pool.connect((err) => {
     console.log("Connected to Neon PostgreSQL database");
   }
 });
+
 export default pool;
