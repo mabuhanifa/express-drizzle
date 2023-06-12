@@ -14,8 +14,8 @@ app.use(express.json());
 
 app.get("/", async (req, res) => {
   try {
-    const user = db;
-    res.send(db);
+    const user = await db.select().from(users);
+    res.send(user);
   } catch (error) {
     res.send(error);
   }
@@ -30,7 +30,19 @@ app.post("/", async (req: Request, res: Response) => {
     const result = await db
       .insert(users)
       .values({ fullName: fullName, email: email });
-    res.send(result);
+
+    if (result.rowCount) {
+      res.send({
+        status: "success",
+        message: "User added successfully",
+        data: result,
+      });
+    } else {
+      res.send({
+        status: "failed",
+        message: "Could not create user",
+      });
+    }
   } catch (error) {
     console.log(error);
   }
