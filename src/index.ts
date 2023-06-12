@@ -1,5 +1,6 @@
 import cors from "cors";
 import * as dotenv from "dotenv";
+import { migrate } from "drizzle-orm/node-postgres/migrator";
 import express, { Request, Response } from "express";
 import { db } from "./db/drizzle";
 import { users } from "./schema/schema";
@@ -19,6 +20,8 @@ app.get("/", async (req, res) => {
     res.send(error);
   }
 });
+
+migrate(db, { migrationsFolder: "/migration/" });
 
 app.post("/", async (req: Request, res: Response) => {
   const { fullName, email } = req.body;

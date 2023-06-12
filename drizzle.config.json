@@ -1,5 +1,5 @@
 {
-  "out": "migration",
+  "out": "migrations",
   "schema": "./src/schema/schema.ts",
   "breakpoints": false
 }
