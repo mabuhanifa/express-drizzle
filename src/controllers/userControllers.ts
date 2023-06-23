@@ -11,4 +11,28 @@ const getUsers = async (req: Request, res: Response) => {
   }
 };
 
-export { getUsers };
+const createUser = async (req: Request, res: Response) => {
+  const { fullName, email } = req.body;
+  try {
+    const result = await db
+      .insert(users)
+      .values({ fullName: fullName, email: email });
+
+    if (result.rowCount) {
+      res.send({
+        status: "success",
+        message: "User added successfully",
+        data: result,
+      });
+    } else {
+      res.send({
+        status: "failed",
+        message: "Could not create user",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { createUser, getUsers };
