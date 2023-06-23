@@ -3,6 +3,7 @@ import * as dotenv from "dotenv";
 import { migrate } from "drizzle-orm/node-postgres/migrator";
 import express, { Request, Response } from "express";
 import { db } from "./db/drizzle";
+import userRouter from "./routes/userRoute";
 import { users } from "./schema/schema";
 dotenv.config();
 
@@ -12,14 +13,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get("/", async (req, res) => {
-  try {
-    const user = await db.select().from(users);
-    res.send(user);
-  } catch (error) {
-    res.send(error);
-  }
-});
+app.use("/api/users", userRouter);
 
 migrate(db, { migrationsFolder: "./migrations" });
 
